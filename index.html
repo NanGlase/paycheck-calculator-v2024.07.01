@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ag-sweldo tay manen kasin!!!</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 15px;
+        text-align: center;
+    }
+    .container {
+        max-width: 380px;
+        margin: 0 auto;
+		background-color: #f9f9f9;
+		padding: 15px;
+        border-radius: 10px;	
+        box-shadow: 0 0 10px rgba(0,0,0,.5);
+    }
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1px; /* Increased margin to separate input groups */
+    }
+    .input-group label {
+        flex: 4;
+        text-align: left;
+        margin-right: 20px;
+    }
+    .input-group .count-box {
+        display: flex;
+        align-items: center;
+    }
+    .count-box button {
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 9px 11px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px; /* Font size for buttons */
+    }
+    .count-box button:hover {
+        background-color: #ccc; /* Lighter shade on hover */
+    }
+    .count-box input[type="number"] {
+        width: 70px;
+        padding: 9px;
+        margin: 0 5px;
+		border: 1px solid #ccc;
+        text-align: center;
+        font-size: 16px; /* Font size for input fields */
+    }
+    button {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 4px auto; /* Center the button */
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .paycheck-summary {
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        margin-top: 5px;
+    }
+    .paycheck-summary h3 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    .result {
+        text-align: left;
+        padding-top: 10px;
+        border-top: 1px solid #ccc;
+    }
+    .result p {
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .result strong {
+        display: inline-block;
+        width: 1000px; /* Adjust as needed for longer labels */
+        text-align: right;
+        margin-right: 10px;
+    }
+    .result span {
+        display: inline-block;
+        width: calc(100% - 10px); /* Adjust as needed based on label width */
+        text-align: left;
+    }
+    h2 {
+        margin-bottom: 0;
+    }
+    .sub-title {
+        font-weight: normal;
+        margin-top: 3px;
+        margin-bottom: 15px;
+        }
+        /* GROSS Salary */
+        .result p:nth-of-type(1) span {
+            font-weight: bold;
+            color: black;
+        }
+        /* SSS */
+        .result p:nth-of-type(2) span {
+            font-weight: normal;
+            color: black; /* Changed color to black */
+        }
+        /* Pag-ibig */
+        .result p:nth-of-type(3) span {
+            font-weight: normal;
+            color: black; /* Changed color to black */
+        }
+        /* PhilHealth */
+        .result p:nth-of-type(4) span {
+            font-weight: normal;
+            color: black; /* Changed color to black */
+        }
+        /* total-deduction */
+        .result p:nth-of-type(5) span {
+            font-weight: bold;
+            color: red;
+        }
+        /* NET salary */
+        .result p:nth-of-type(6) span {
+            font-weight: bold;
+            color: black;
+        }
+    /* Blink animation */
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    .blink {
+        animation: blink 0.25s;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>DaKASINS</h2>
+    <div class="sub-title">Paycheck Calculator v2024.07.01</div>
+    <form onsubmit="event.preventDefault(); calculateSalary();">
+        <div class="input-group">
+            <label for="days">Number of days worked:</label>
+            <div class="count-box">
+                <button type="button" onclick="decrementDays()">-</button>
+                <input type="number" id="days" name="days" class="input-field" value="10" step="1">
+                <button type="button" onclick="incrementDays()">+</button>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="rate">Rate per day (PHP):</label>
+            <div class="count-box">
+                <button type="button" onclick="decrementRate()">-</button>
+                <input type="number" id="rate" name="rate" class="input-field" value="550" step="10">
+                <button type="button" onclick="incrementRate()">+</button>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="sss">SSS Contribution (%):</label>
+            <div class="count-box">
+                <button type="button" onclick="decrementSSS()">-</button>
+                <input type="number" id="sss" name="sss" class="input-field" value="4.5" step="0.1">
+                <button type="button" onclick="incrementSSS()">+</button>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="pagibig">Pag-ibig Contribution (%):</label>
+            <div class="count-box">
+                <button type="button" onclick="decrementPagibig()">-</button>
+                <input type="number" id="pagibig" name="pagibig" class="input-field" value="3.0" step="0.1">
+                <button type="button" onclick="incrementPagibig()">+</button>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="philhealth">PhilHealth Contribution:</label>
+            <div class="count-box">
+                <button type="button" onclick="decrementPhilhealth()">-</button>
+                <input type="number" id="philhealth" name="philhealth" class="input-field" value="112.50" step="0.50">
+                <button type="button" onclick="incrementPhilhealth()">+</button>
+            </div>
+        </div>
+        <button type="submit">Calculate NET salary</button>
+    </form>
+
+    <div class="paycheck-summary">
+        <h3>Paycheck Summary</h3>
+        <div class="result">
+            <p><span>Gross Salary:</span> <span id="grosssalary"></span></p>
+            <p><span id="sssLabel">SSS (4.5%):</span> <span id="sssDeduction"></span></p>
+            <p><span id="pagibigLabel">Pag-ibig (3.0%):</span> <span id="pagibigDeduction"></span></p>
+            <p><span>PhilHealth (Fxd):</span> <span id="philhealthAmount"></span></p>
+            <p><span>Total deduction:</span> <span id="totalDeduction"></span></p>
+            <p><span>NET Salary:</span> <span id="netSalary"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateSalary() {
+            // Get input values
+            var daysWorked = parseInt(document.getElementById('days').value);
+            var ratePerDay = parseFloat(document.getElementById('rate').value);
+            var sssContribution = parseFloat(document.getElementById('sss').value);
+            var pagibigContribution = parseFloat(document.getElementById('pagibig').value);
+            var philhealthAmount = parseFloat(document.getElementById('philhealth').value);
+
+            // Calculate deductions
+            var grossSalary = (daysWorked * ratePerDay).toFixed(2);
+            var sssDeduction = ((grossSalary * (sssContribution / 100)).toFixed(2));
+            var pagibigDeduction = ((grossSalary * (pagibigContribution / 100)).toFixed(2));
+            var totalPhilhealth = philhealthAmount.toFixed(2);
+            var totalDeduction = (parseFloat(sssDeduction) + parseFloat(pagibigDeduction) + parseFloat(totalPhilhealth)).toFixed(2);
+            var netSalary = (grossSalary - totalDeduction).toFixed(2);
+
+            // Display results with blinking effect
+            blinkResults();
+
+            // Update results
+            document.getElementById('grosssalary').textContent = 'PHP ' + grossSalary;
+            document.getElementById('sssDeduction').textContent = 'PHP ' + sssDeduction;
+            document.getElementById('pagibigDeduction').textContent = 'PHP ' + pagibigDeduction;
+            document.getElementById('philhealthAmount').textContent = 'PHP ' + totalPhilhealth;
+            document.getElementById('totalDeduction').textContent = 'PHP ' + totalDeduction;
+            document.getElementById('netSalary').textContent = 'PHP ' + netSalary;
+			
+            // Update labels
+            updateSSSLabel();
+            updatePagibigLabel();
+        }
+
+        function blinkResults() {
+            var results = document.querySelectorAll('.result span');
+            results.forEach(function(result) {
+                result.classList.add('blink');
+            });
+            setTimeout(function() {
+                results.forEach(function(result) {
+                    result.classList.remove('blink');
+                });
+            }, 250);
+        }
+
+        function updateSSSLabel() {
+            var sssContribution = parseFloat(document.getElementById('sss').value);
+            document.getElementById('sssLabel').textContent = 'SSS (' + sssContribution.toFixed(1) + '%):';
+        }
+
+        function updatePagibigLabel() {
+            var pagibigContribution = parseFloat(document.getElementById('pagibig').value);
+            document.getElementById('pagibigLabel').textContent = 'Pag-ibig (' + pagibigContribution.toFixed(1) + '%):';
+        }
+
+        function incrementDays() {
+            var daysInput = document.getElementById('days');
+            var currentValue = parseInt(daysInput.value);
+            daysInput.value = currentValue + 1;
+        }
+
+        function decrementDays() {
+            var daysInput = document.getElementById('days');
+            var currentValue = parseInt(daysInput.value);
+            if (currentValue > 1) {
+                daysInput.value = currentValue - 1;
+            }
+        }
+
+        function incrementRate() {
+            var rateInput = document.getElementById('rate');
+            var currentValue = parseInt(rateInput.value);
+            rateInput.value = currentValue + 10;
+        }
+
+        function decrementRate() {
+            var rateInput = document.getElementById('rate');
+            var currentValue = parseInt(rateInput.value);
+            if (currentValue > 10) {
+                rateInput.value = currentValue - 10;
+            }
+        }
+
+        function incrementSSS() {
+            var sssInput = document.getElementById('sss');
+            var currentValue = parseFloat(sssInput.value);
+            sssInput.value = (currentValue + 0.1).toFixed(1);
+        }
+
+        function decrementSSS() {
+            var sssInput = document.getElementById('sss');
+            var currentValue = parseFloat(sssInput.value);
+            if (currentValue > 0) {
+                sssInput.value = (currentValue - 0.1).toFixed(1);
+            }
+        }
+
+        function incrementPagibig() {
+            var pagibigInput = document.getElementById('pagibig');
+            var currentValue = parseFloat(pagibigInput.value);
+            pagibigInput.value = (currentValue + 0.1).toFixed(1);
+        }
+
+        function decrementPagibig() {
+            var pagibigInput = document.getElementById('pagibig');
+            var currentValue = parseFloat(pagibigInput.value);
+            if (currentValue > 0) {
+                pagibigInput.value = (currentValue - 0.1).toFixed(1);
+            }
+        }
+
+        function incrementPhilhealth() {
+            var philhealthInput = document.getElementById('philhealth');
+            var currentValue = parseFloat(philhealthInput.value);
+            philhealthInput.value = (currentValue + 0.50).toFixed(2);
+        }
+
+        function decrementPhilhealth() {
+            var philhealthInput = document.getElementById('philhealth');
+            var currentValue = parseFloat(philhealthInput.value);
+            if (currentValue > 0) {
+                philhealthInput.value = (currentValue - 0.50).toFixed(2);
+            }
+        }
+
+        // Initial update of labels
+        updateSSSLabel();
+        updatePagibigLabel();
+    </script>
+</body>
+</html>
